@@ -1,29 +1,7 @@
 FROM      ubuntu:14.04.4
 MAINTAINER Olexander Kutsenko <olexander.kutsenko@gmail.com>
 
-#install Apche2 && PHP && supervisor && postfix
-RUN apt-get update 
-RUN apt-get upgrade -y
-RUN apt-get install -y language-pack-en-base
-RUN apt-get install -y software-properties-common python-software-properties
-RUN echo "postfix postfix/mailname string magento.hostname.com" | sudo debconf-set-selections
-RUN echo "postfix postfix/main_mailer_type string 'Magento E-commerce'" | sudo debconf-set-selections
-RUN apt-get install -y supervisor postfix
-RUN apt-get install -y git git-core vim nano mc screen curl zip unzip
-RUN apt-get install -y apache2 libapache2-mod-php5 libcurl3 tmux
-RUN apt-get install -y wget php5 php5-fpm php5-cli php5-common php5-intl 
-RUN apt-get install -y php5-json php5-mysql php5-gd php5-imagick
-RUN apt-get install -y php5-curl php5-mcrypt php5-dev php5-xdebug
-RUN rm /etc/php5/apache2/php.ini
-RUN rm -rf /etc/apache2/sites-available/*
-COPY configs/php.ini /etc/php5/apache2/php.ini
-COPY configs/Magento-CE-2.0.7.zip /home/magento.zip
-COPY configs/apache2/magento.conf /etc/apache2/sites-available/magento.conf
-RUN a2ensite magento.conf
-RUN php5enmod mcrypt
 
-
-# SSH service
 RUN apt-get install -y openssh-server openssh-client
 RUN mkdir /var/run/sshd
 RUN echo 'root:root' | chpasswd
