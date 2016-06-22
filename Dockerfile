@@ -22,15 +22,6 @@ COPY configs/apache2/magento.conf /etc/apache2/sites-available/magento.conf
 RUN a2ensite magento.conf
 RUN php5enmod mcrypt
 
-#Install Percona Mysql 5.6 server
-RUN wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb
-RUN dpkg -i percona-release_0.1-3.$(lsb_release -sc)_all.deb
-RUN rm percona-release_0.1-3.$(lsb_release -sc)_all.deb
-RUN apt-get update
-RUN echo "percona-server-server-5.6 percona-server-server/root_password password root" | sudo debconf-set-selections
-RUN echo "percona-server-server-5.6 percona-server-server/root_password_again password root" | sudo debconf-set-selections
-RUN apt-get install -y percona-server-server-5.6
-COPY configs/mysql/my.cnf /etc/mysql/my.cnf
 
 # SSH service
 RUN apt-get install -y openssh-server openssh-client
